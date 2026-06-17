@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>JTI Interactive Learning Test</title>
+<!-- Compact GitHub/Rippling embed version: hero removed, reduced top spacing, auto panel height. -->
+<style>
+  :root{
+    --jti-black:#211E1F;
+    --jti-gray:#6D6F72;
+    --jti-light:#F7F7F5;
+    --jti-line:#E6E3DF;
+    --jti-white:#FFFFFF;
+    --jti-pink:#D71996;
+    --jti-purple:#8B149B;
+    --jti-blue:#315BAA;
+    --jti-cyan:#2293B7;
+    --jti-teal:#2DBAC2;
+    --jti-green:#35C795;
+    --shadow:0 18px 45px rgba(33,30,31,.10);
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    font-family:"Neue Haas Grotesk Text Pro", "Helvetica Neue", Arial, sans-serif;
+    color:var(--jti-black);
+    background:
+      radial-gradient(circle at top right, rgba(45,186,194,.10), transparent 34%),
+      linear-gradient(180deg,#fff 0%,var(--jti-light) 100%);
+  }
+  .wrap{max-width:1180px;margin:0 auto;padding:12px 26px 26px}
+  .hero{
+    background:var(--jti-white);
+    border:1px solid var(--jti-line);
+    border-radius:6px 34px 6px 34px;
+    box-shadow:var(--shadow);
+    overflow:hidden;
+    display:grid;
+    grid-template-columns:1fr 220px;
+    min-height:235px;
+  }
+  .hero-copy{padding:38px 46px}
+  .eyebrow{font-size:.82rem;text-transform:uppercase;letter-spacing:.12em;color:var(--jti-gray);font-weight:800;margin-bottom:16px}
+  h1{font-size:clamp(2.35rem,5vw,4.8rem);line-height:.95;letter-spacing:-.055em;margin:0;max-width:720px}
+  .subtitle{font-size:1.14rem;line-height:1.55;color:var(--jti-gray);max-width:720px;margin:20px 0 0}
+  .hero-mark{position:relative;background:var(--jti-black);min-height:220px;display:grid;grid-template-columns:repeat(2,1fr);gap:0}
+  .block{min-height:50%;opacity:.96}
+  .b1{background:var(--jti-pink)}.b2{background:var(--jti-purple)}.b3{background:var(--jti-blue)}.b4{background:var(--jti-teal)}
+  .hero-mark::after{content:"";position:absolute;inset:auto 0 0 auto;width:72%;height:42%;background:var(--jti-green);clip-path:polygon(22% 0,100% 0,100% 100%,0 100%);}
+  .journey{display:grid;grid-template-columns:280px 1fr;gap:24px;margin-top:0}
+  .rail{background:#fff;border:1px solid var(--jti-line);box-shadow:var(--shadow);border-radius:26px;padding:18px;align-self:start;position:sticky;top:18px}
+  .progress-label{display:flex;justify-content:space-between;font-weight:800;font-size:.78rem;text-transform:uppercase;letter-spacing:.08em;color:var(--jti-gray);margin-bottom:12px}
+  .progress-shell{height:6px;background:#eee;border-radius:999px;overflow:hidden;margin-bottom:18px}
+  .progress-bar{height:100%;width:25%;background:var(--jti-pink);transition:width .28s ease, background .28s ease}
+  .rail button{width:100%;border:0;background:transparent;text-align:left;padding:14px 12px;border-radius:16px;display:grid;grid-template-columns:38px 1fr;gap:12px;align-items:center;cursor:pointer;color:var(--jti-black);font-weight:800;transition:.18s ease}
+  .rail button:hover,.rail button.active{background:var(--jti-light)}
+  .rail button.active .num{transform:scale(1.05)}
+  .num{height:34px;width:34px;border-radius:11px;background:var(--jti-black);color:#fff;display:flex;align-items:center;justify-content:center;font-size:.9rem;transition:.18s ease}
+  button[data-panel="panel1"] .num{background:var(--jti-pink)}button[data-panel="panel2"] .num{background:var(--jti-purple)}button[data-panel="panel3"] .num{background:var(--jti-blue)}button[data-panel="panel4"] .num{background:var(--jti-teal)}
+  .panel{display:none;background:#fff;border:1px solid var(--jti-line);border-radius:34px 6px 34px 6px;box-shadow:var(--shadow);padding:34px;animation:fade .22s ease;min-height:auto}
+  .panel.active{display:block}
+  @keyframes fade{from{opacity:.25;transform:translateY(8px)}to{opacity:1;transform:none}}
+  h2{font-size:clamp(1.8rem,3vw,2.55rem);letter-spacing:-.035em;line-height:1.06;margin:0 0 18px;color:var(--jti-black)}
+  p{font-size:1.05rem;line-height:1.64;margin:0 0 16px;color:#302D2E}
+  .accent-line{height:5px;width:84px;border-radius:999px;background:var(--panel-accent,var(--jti-pink));margin-bottom:22px}
+  .pullquote{font-size:1.32rem;line-height:1.42;border-left:8px solid var(--panel-accent,var(--jti-pink));background:var(--jti-light);padding:22px 24px;margin:24px 0;border-radius:0 20px 20px 0;font-weight:700}
+  .callout{display:grid;grid-template-columns:58px 1fr;gap:16px;padding:20px;border:1px solid var(--jti-line);border-radius:24px;background:#fff;margin-top:22px}
+  .callout-icon{height:58px;width:58px;border-radius:18px;background:var(--panel-accent,var(--jti-pink));color:#fff;display:flex;align-items:center;justify-content:center;font-size:1.5rem;font-weight:900}
+  .callout strong{display:block;margin-bottom:5px}
+  .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:22px}
+  .card{border:1px solid var(--jti-line);border-radius:26px;padding:22px;background:linear-gradient(180deg,#fff,var(--jti-light));min-height:175px}
+  .card-icon{font-size:1.8rem;margin-bottom:10px}
+  .card h3{font-size:1.1rem;margin:0 0 8px;color:var(--jti-black)}
+  .reveal{margin-top:24px}
+  .btn{border:0;border-radius:999px;padding:13px 18px;cursor:pointer;font-weight:900;background:var(--jti-black);color:#fff;box-shadow:0 10px 18px rgba(33,30,31,.15)}
+  .btn.accent{background:var(--panel-accent,var(--jti-pink))}
+  .btn:disabled{opacity:.45;cursor:not-allowed;box-shadow:none}
+  .reveal-content{display:none;margin-top:16px;padding:20px;border-radius:22px;background:var(--jti-light);border:1px solid var(--jti-line);line-height:1.62}
+  .reveal-content.show{display:block}
+  .checklist{display:grid;gap:13px;margin-top:22px}
+  .check-item{display:grid;grid-template-columns:42px 1fr;gap:14px;align-items:start;padding:18px;border:1px solid var(--jti-line);border-radius:22px;background:#fff}
+  .check{height:42px;width:42px;border-radius:14px;background:var(--panel-accent,var(--jti-blue));color:#fff;font-weight:900;display:flex;align-items:center;justify-content:center}
+  .reflection{margin-top:24px;background:var(--jti-light);border:1px solid var(--jti-line);border-radius:26px;padding:22px}
+  .reflection h3{margin:0 0 10px;font-size:1.25rem}
+  textarea{width:100%;min-height:118px;border:1px solid #d6d2cd;border-radius:18px;padding:15px;font:inherit;resize:vertical;background:#fff;color:var(--jti-black)}
+  textarea:focus{outline:4px solid rgba(45,186,194,.18);border-color:var(--panel-accent,var(--jti-teal))}
+  .actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}
+  .feedback{display:none;margin-top:16px;padding:18px;border-radius:22px;background:#fff;border:1px solid var(--jti-line);border-top:5px solid var(--panel-accent,var(--jti-teal));color:#302D2E;line-height:1.55}
+  .feedback.show{display:block}
+  .navrow{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:26px}
+  .note{font-size:.92rem;color:var(--jti-gray);margin:0;font-weight:700}
+  #panel1{--panel-accent:var(--jti-pink)}#panel2{--panel-accent:var(--jti-purple)}#panel3{--panel-accent:var(--jti-blue)}#panel4{--panel-accent:var(--jti-teal)}
+  @media(max-width:900px){.wrap{padding:18px}.hero{grid-template-columns:1fr}.hero-mark{grid-template-columns:repeat(5,1fr);min-height:42px}.hero-mark::after{display:none}.journey{grid-template-columns:1fr}.rail{position:relative;top:auto}.rail nav{display:grid;grid-template-columns:repeat(2,1fr);gap:6px}.cards{grid-template-columns:1fr}}
+  @media(max-width:560px){.hero-copy{padding:28px}.rail nav{grid-template-columns:1fr}.panel{padding:24px;border-radius:24px 6px 24px 6px}.navrow{flex-direction:column;align-items:stretch}.btn{width:100%}.callout{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="journey">
+    <aside class="rail">
+      <div class="progress-label"><span>Progress</span><span id="progressText">1 of 4</span></div>
+      <div class="progress-shell"><div class="progress-bar" id="progressBar"></div></div>
+      <nav aria-label="Welcome sections">
+        <button class="active" data-panel="panel1"><span class="num">1</span><span>The invitation</span></button>
+        <button data-panel="panel2"><span class="num">2</span><span>Trainer presence</span></button>
+        <button data-panel="panel3"><span class="num">3</span><span>Who this is for</span></button>
+        <button data-panel="panel4"><span class="num">4</span><span>What you will leave with</span></button>
+      </nav>
+    </aside>
+
+    <main>
+      <section class="panel active" id="panel1">
+        <div class="accent-line"></div>
+        <h2>You are here to begin.</h2>
+        <p>You have walked into a training that is going to ask something a little unusual of you. Before you learn what to teach, it is going to ask you to notice how you show up.</p>
+        <p>That is not a stylistic choice. It is the heart of LEAD WELL.</p>
+        <div class="pullquote">The framework you are preparing to teach is not a curriculum to deliver. It is a practice to live.</div>
+        <p>The way you carry it is what people will believe is possible.</p>
+        <p>You are not here to master something today. You are here to begin.</p>
+        <div class="callout"><div class="callout-icon">✓</div><div><strong>Leader Tip</strong>Consistency builds credibility. Small, repeated actions often matter more than one-time effort.</div></div>
+        <div class="navrow"><p class="note">Start with presence before content.</p><button class="btn accent" data-next="panel2">Continue</button></div>
+      </section>
+
+      <section class="panel" id="panel2">
+        <div class="accent-line"></div>
+        <h2>How you show up matters.</h2>
+        <p>Part of showing up as a LEAD WELL trainer includes approaching interactions with a sense of gratitude—for the time, trust, and lived experience others are willing to share.</p>
+        <div class="cards">
+          <article class="card"><div class="card-icon">⏱</div><h3>Time</h3><p>Participants are choosing to spend attention, energy, and time in this space.</p></article>
+          <article class="card"><div class="card-icon">🤝</div><h3>Trust</h3><p>People may share experiences that require care, humility, and respect.</p></article>
+          <article class="card"><div class="card-icon">🧭</div><h3>Lived Experience</h3><p>The work becomes meaningful when real stories are welcomed and honored.</p></article>
+        </div>
+        <div class="reveal"><button class="btn accent" onclick="toggleReveal('gratitudeReveal')">Why gratitude belongs here</button><div class="reveal-content" id="gratitudeReveal">Gratitude keeps the trainer from treating facilitation as performance. It shifts the stance from “I am here to deliver content” to “I am here to serve the learning, the people, and the practice.”</div></div>
+        <div class="navrow"><button class="btn" data-next="panel1">Back</button><button class="btn accent" data-next="panel3">Continue</button></div>
+      </section>
+
+      <section class="panel" id="panel3">
+        <div class="accent-line"></div>
+        <h2>Who this is for</h2>
+        <p>This orientation is designed for well-being specialists, leadership development colleagues, and embedded leaders responsible for culture and staff experience.</p>
+        <p>Prior exposure to the LEAD WELL Framework or to the evidence-based well-being intervention known as The Practice is helpful, but not required.</p>
+        <div class="checklist">
+          <div class="check-item"><div class="check">1</div><div><strong>Well-being specialists</strong><br>Colleagues supporting staff experience, resilience, and well-being.</div></div>
+          <div class="check-item"><div class="check">2</div><div><strong>Leadership development colleagues</strong><br>Professionals helping leaders translate concepts into practical behaviors.</div></div>
+          <div class="check-item"><div class="check">3</div><div><strong>Embedded leaders</strong><br>Leaders responsible for culture, trust, team experience, and day-to-day practice.</div></div>
+        </div>
+        <div class="navrow"><button class="btn" data-next="panel2">Back</button><button class="btn accent" data-next="panel4">Continue</button></div>
+      </section>
+
+      <section class="panel" id="panel4">
+        <div class="accent-line"></div>
+        <h2>What you will leave with</h2>
+        <p>By the end of this lesson, you should be able to describe the LEAD WELL framework and the role of a trainer, name three behaviors of a LEAD WELL trainer, and decide whether this program is right for you at this point in your work.</p>
+        <div class="cards">
+          <article class="card"><div class="card-icon">🌱</div><h3>Well-being begins with self</h3><p>Your own presence is part of the learning environment.</p></article>
+          <article class="card"><div class="card-icon">👥</div><h3>How you show up shapes effectiveness</h3><p>Leadership effectiveness is shaped by presence, not outcomes alone.</p></article>
+          <article class="card"><div class="card-icon">🛤</div><h3>This is a practice journey</h3><p>The goal is not mastery in one pass. The goal is to begin practicing.</p></article>
+        </div>
+        <div class="reflection">
+          <h3>Pause and notice</h3>
+          <p>Before moving on, write one sentence about how you want to show up as a LEAD WELL trainer.</p>
+          <textarea id="reflectionText" placeholder="I want to show up as..." aria-label="Reflection response"></textarea>
+          <div class="actions"><button class="btn accent" id="submitReflection" disabled>Submit reflection</button><button class="btn" id="copyReflection" disabled>Copy response</button></div>
+          <div class="feedback" id="reflectionFeedback" aria-live="polite"><strong>Feedback</strong><br><span id="feedbackText"></span></div>
+        </div>
+        <div class="navrow"><button class="btn" data-next="panel3">Back</button><p class="note">Welcome complete</p></div>
+      </section>
+    </main>
+  </div>
+</div>
+<script>
+  const buttons=[...document.querySelectorAll('.rail button')];
+  const panels=[...document.querySelectorAll('.panel')];
+  const progressBar=document.getElementById('progressBar');
+  const progressText=document.getElementById('progressText');
+  const colors=['#D71996','#8B149B','#315BAA','#2293B7'];
+  function showPanel(id){
+    panels.forEach(p=>p.classList.remove('active'));
+    buttons.forEach(b=>b.classList.remove('active'));
+    const panel=document.getElementById(id);
+    const button=document.querySelector(`[data-panel="${id}"]`);
+    panel.classList.add('active');
+    button.classList.add('active');
+    const index=panels.findIndex(p=>p.id===id);
+    progressBar.style.width=((index+1)/panels.length*100)+'%';
+    progressBar.style.background=colors[index];
+    progressText.textContent=(index+1)+' of '+panels.length;
+  }
+  buttons.forEach(b=>b.addEventListener('click',()=>showPanel(b.dataset.panel)));
+  document.querySelectorAll('[data-next]').forEach(b=>b.addEventListener('click',()=>showPanel(b.dataset.next)));
+  function toggleReveal(id){document.getElementById(id).classList.toggle('show')}
+  const reflectionText=document.getElementById('reflectionText');
+  const submitReflection=document.getElementById('submitReflection');
+  const copyReflection=document.getElementById('copyReflection');
+  const feedback=document.getElementById('reflectionFeedback');
+  const feedbackText=document.getElementById('feedbackText');
+  function generateReflectionFeedback(response){
+    const lower=response.toLowerCase();
+    if(lower.match(/listen|listening|hear|understand|curious|curiosity/)) return 'Your response points toward curiosity and listening. Notice how listening becomes a leadership practice for seeing what is happening in the room, in the system, and in yourself.';
+    if(lower.match(/calm|steady|presence|patient|pause|slow|grounded/)) return 'Your response points toward steadiness and presence. Pausing before responding can help trainers avoid rushing to interpretation or premature solutions.';
+    if(lower.match(/kind|empathy|empathetic|compassion|care|safe|support/)) return 'Your response points toward care and psychological safety. Connect that intention to a trainer stance that is service-oriented, kind, open, curious, and coachable.';
+    if(lower.match(/open|coachable|learn|learning|humble|humility|growth/)) return 'Your response points toward humility and coachability. That stance matters when the framework is treated as a practice journey, not something to master in one pass.';
+    if(lower.match(/trust|relationship|connect|connection|partnership|together/)) return 'Your response points toward trust and relationship building. Consider how trainers translate mindsets into observable behaviors that build shared ownership.';
+    return 'Thank you for naming an intention. Carry that sentence into the next section and compare it with the trainer stance: service-oriented, kind, wellness-centered, open, curious, and coachable.';
+  }
+  reflectionText.addEventListener('input',()=>{
+    const hasText=reflectionText.value.trim().length>0;
+    submitReflection.disabled=!hasText;
+    copyReflection.disabled=!hasText;
+    feedback.classList.remove('show');
+  });
+  submitReflection.addEventListener('click',()=>{
+    const response=reflectionText.value.trim();
+    if(!response) return;
+    localStorage.setItem('jtiLeadWellReflection',response);
+    feedbackText.textContent=generateReflectionFeedback(response);
+    feedback.classList.add('show');
+  });
+  copyReflection.addEventListener('click',async()=>{
+    const response=reflectionText.value.trim();
+    if(!response) return;
+    try{await navigator.clipboard.writeText(response);feedbackText.textContent='Your response was copied. You can paste it into a journal, worksheet, or LMS reflection field.';}
+    catch(e){feedbackText.textContent='Select and copy your response manually if your browser blocks clipboard access.';}
+    feedback.classList.add('show');
+  });
+  const saved=localStorage.getItem('jtiLeadWellReflection');
+  if(saved){reflectionText.value=saved;submitReflection.disabled=false;copyReflection.disabled=false;}
+</script>
+</body>
+</html>
