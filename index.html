@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>eSeries Login & Logout Training</title>
+<style>
+  :root{
+    --jti-black:#211E1F;
+    --jti-gray:#6D6F72;
+    --jti-light:#F7F7F5;
+    --jti-line:#E6E3DF;
+    --jti-white:#FFFFFF;
+    --jti-pink:#D71996;
+    --jti-purple:#8B149B;
+    --jti-blue:#315BAA;
+    --jti-cyan:#2293B7;
+    --jti-teal:#2DBAC2;
+    --jti-green:#35C795;
+    --shadow:0 18px 45px rgba(33,30,31,.10);
+    --button:#315BAA;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;
+    font-family:"Neue Haas Grotesk Text Pro", "Helvetica Neue", Arial, sans-serif;
+    color:var(--jti-black);
+    background:
+      radial-gradient(circle at top right, rgba(45,186,194,.12), transparent 34%),
+      radial-gradient(circle at bottom left, rgba(215,25,150,.08), transparent 26%),
+      linear-gradient(180deg,#fff 0%,var(--jti-light) 100%);
+  }
+  .wrap{max-width:1180px;margin:0 auto;padding:24px 26px 26px}
+  .hero{
+    background:var(--jti-white);
+    border:1px solid var(--jti-line);
+    border-radius:6px 34px 6px 34px;
+    box-shadow:var(--shadow);
+    overflow:hidden;
+    display:block;
+    margin-bottom:22px;
+  }
+  .hero-copy{padding:34px 46px 30px}
+  .eyebrow{font-size:.82rem;text-transform:uppercase;letter-spacing:.12em;color:var(--jti-gray);font-weight:800;margin-bottom:14px}
+  h1{font-size:clamp(2.2rem,4.8vw,4.4rem);line-height:.95;letter-spacing:-.055em;margin:0;max-width:760px}
+  .subtitle{font-size:1.08rem;line-height:1.55;color:var(--jti-gray);max-width:760px;margin:18px 0 0}
+  .hero-mark{display:grid;grid-template-columns:1.05fr 1fr 1fr 1fr 1.1fr;min-height:18px;width:100%}
+  .block{min-height:18px;opacity:.98}
+  .b1{background:var(--jti-pink)}.b2{background:var(--jti-purple)}.b3{background:var(--jti-blue)}.b4{background:var(--jti-teal)}.b5{background:var(--jti-green)}
+  .journey{display:grid;grid-template-columns:280px 1fr;gap:24px;margin-top:0}
+  .rail{background:#fff;border:1px solid var(--jti-line);box-shadow:var(--shadow);border-radius:26px;padding:18px;align-self:start;position:sticky;top:18px}
+  .progress-label{display:flex;justify-content:space-between;font-weight:800;font-size:.78rem;text-transform:uppercase;letter-spacing:.08em;color:var(--jti-gray);margin-bottom:12px}
+  .progress-shell{height:6px;background:#eee;border-radius:999px;overflow:hidden;margin-bottom:18px}
+  .progress-bar{height:100%;width:14.285%;background:var(--jti-pink);transition:width .28s ease, background .28s ease}
+  .rail button{width:100%;border:0;background:transparent;text-align:left;padding:14px 12px;border-radius:16px;display:grid;grid-template-columns:38px 1fr;gap:12px;align-items:center;cursor:pointer;color:var(--jti-black);font-weight:800;transition:.18s ease}
+  .rail button:hover,.rail button.active{background:var(--jti-light)}
+  .rail button.active .num{transform:scale(1.05)}
+  .num{height:34px;width:34px;border-radius:11px;background:var(--jti-black);color:#fff;display:flex;align-items:center;justify-content:center;font-size:.9rem;transition:.18s ease}
+  button[data-panel="panel1"] .num{background:var(--jti-pink)}button[data-panel="panel2"] .num{background:var(--jti-purple)}button[data-panel="panel3"] .num{background:var(--jti-blue)}button[data-panel="panel4"] .num{background:var(--jti-cyan)}button[data-panel="panel5"] .num{background:var(--jti-teal)}button[data-panel="panel6"] .num{background:var(--jti-purple)}button[data-panel="panel7"] .num{background:var(--jti-green);color:#fff}
+  .panel{display:none;background:#fff;border:1px solid var(--jti-line);border-radius:34px 6px 34px 6px;box-shadow:var(--shadow);padding:34px;animation:fade .22s ease;min-height:auto}
+  .panel.active{display:block}
+  @keyframes fade{from{opacity:.25;transform:translateY(8px)}to{opacity:1;transform:none}}
+  h2{font-size:clamp(1.8rem,3vw,2.55rem);letter-spacing:-.035em;line-height:1.06;margin:0 0 18px;color:var(--jti-black)}
+  p{font-size:1.05rem;line-height:1.64;margin:0 0 16px;color:#302D2E}
+  .accent-line{height:5px;width:84px;border-radius:999px;background:var(--panel-accent,var(--jti-pink));margin-bottom:22px}
+  .pullquote{font-size:1.32rem;line-height:1.42;border-left:8px solid var(--panel-accent,var(--jti-pink));background:var(--jti-light);padding:22px 24px;margin:24px 0;border-radius:0 20px 20px 0;font-weight:700;color:#211E1F}
+  .callout{display:grid;grid-template-columns:58px 1fr;gap:16px;padding:20px;border:1px solid var(--jti-line);border-radius:24px;background:#fff;margin-top:22px}
+  .callout-icon{height:58px;width:58px;border-radius:18px;background:var(--panel-accent,var(--jti-pink));color:#fff;display:flex;align-items:center;justify-content:center;font-size:1.5rem;font-weight:900}
+  .callout strong{display:block;margin-bottom:5px}
+  .warning{background:#fff;border-top:6px solid var(--jti-pink)}
+  .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:22px}
+  .card{border:1px solid var(--jti-line);border-radius:26px;padding:22px;background:linear-gradient(180deg,#fff,var(--jti-light));min-height:160px}
+  .card-icon{font-size:1.8rem;margin-bottom:10px}
+  .card h3{font-size:1.1rem;margin:0 0 8px;color:var(--jti-black)}
+  .grid-2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.18fr);gap:24px;align-items:start}
+  .screenshot{background:#fff;border:1px solid var(--jti-line);border-radius:26px;padding:14px;box-shadow:0 15px 35px rgba(33,30,31,.12);margin:8px 0 22px}
+  .screenshot img{display:block;width:100%;height:auto;border-radius:16px;border:1px solid #d8d5d0;background:#fff;cursor:zoom-in}
+  .screenshot.large img{max-height:760px;object-fit:contain}
+  .image-row{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+  .caption{font-size:.88rem;color:var(--jti-gray);font-weight:800;margin:10px 6px 2px}
+  .step-list{display:grid;gap:13px;margin-top:22px}
+  .step{display:grid;grid-template-columns:42px 1fr;gap:14px;align-items:start;padding:18px;border:1px solid var(--jti-line);border-radius:22px;background:#fff}
+  .step-num{height:42px;width:42px;border-radius:14px;background:var(--panel-accent,var(--jti-blue));color:#fff;font-weight:900;display:flex;align-items:center;justify-content:center}
+  .reveal{margin-top:22px}
+  .btn{border:0;border-radius:999px;padding:13px 18px;cursor:pointer;font-weight:900;background:var(--button);color:#fff;box-shadow:0 10px 18px rgba(33,30,31,.15)}
+  .btn:hover{filter:brightness(.96)}
+  .btn:focus-visible,.rail button:focus-visible,.choice:focus-visible{outline:4px solid rgba(45,186,194,.28);outline-offset:3px}
+  .btn:disabled{opacity:.45;cursor:not-allowed;box-shadow:none}
+  .reveal-content{display:none;margin-top:16px;padding:20px;border-radius:22px;background:var(--jti-light);border:1px solid var(--jti-line);line-height:1.62;color:#302D2E}
+  .reveal-content.show{display:block}
+  .quiz{margin-top:24px;background:var(--jti-light);border:1px solid var(--jti-line);border-radius:26px;padding:22px}
+  .quiz h3{margin:0 0 10px;font-size:1.25rem}
+  .choice{display:block;width:100%;text-align:left;border:1px solid #d6d2cd;background:#fff;border-radius:18px;padding:14px 15px;margin:10px 0;cursor:pointer;font-weight:750;color:#211E1F}
+  .choice.correct{border-color:var(--jti-green);background:rgba(53,199,149,.14)}
+  .choice.incorrect{border-color:#D71996;background:rgba(215,25,150,.10)}
+  .feedback{display:none;margin-top:14px;padding:16px;border-radius:20px;background:#fff;border-left:6px solid var(--panel-accent);line-height:1.55;color:#302D2E}
+  .feedback.show{display:block}
+  .reflection{margin-top:24px;background:var(--jti-light);border:1px solid var(--jti-line);border-radius:26px;padding:22px}
+  .reflection h3{margin:0 0 10px;font-size:1.25rem}
+  textarea{width:100%;min-height:118px;border:1px solid #d6d2cd;border-radius:18px;padding:15px;font:inherit;resize:vertical;background:#fff;color:var(--jti-black)}
+  textarea:focus{outline:4px solid rgba(45,186,194,.18);border-color:var(--panel-accent,var(--jti-teal))}
+  .navrow{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:26px}
+  .note{font-size:.92rem;color:var(--jti-gray);margin:0;font-weight:700}
+  #panel1{--panel-accent:var(--jti-pink)}#panel2{--panel-accent:var(--jti-purple)}#panel3{--panel-accent:var(--jti-blue)}#panel4{--panel-accent:var(--jti-cyan)}#panel5{--panel-accent:var(--jti-teal)}#panel6{--panel-accent:var(--jti-purple)}#panel7{--panel-accent:var(--jti-green)}
+  dialog{border:0;border-radius:26px;padding:0;max-width:min(94vw,1160px);box-shadow:0 24px 70px rgba(0,0,0,.35);background:#fff}
+  dialog::backdrop{background:rgba(33,30,31,.72)}
+  .modal-head{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:14px 18px;border-bottom:1px solid var(--jti-line)}
+  .modal-head strong{font-size:1rem}.modal-close{border:0;background:var(--jti-black);color:#fff;border-radius:999px;padding:9px 14px;font-weight:900;cursor:pointer}
+  .modal-body{padding:14px}.modal-body img{max-width:100%;height:auto;display:block;border-radius:18px;border:1px solid var(--jti-line)}
+  @media(max-width:980px){.wrap{padding:18px}.hero-mark{grid-template-columns:repeat(5,1fr);min-height:16px}.journey{grid-template-columns:1fr}.rail{position:relative;top:auto}.rail nav{display:grid;grid-template-columns:repeat(2,1fr);gap:6px}.cards{grid-template-columns:1fr}.grid-2{grid-template-columns:1fr}.image-row{grid-template-columns:1fr}}
+  @media(max-width:560px){.hero-copy{padding:28px}.rail nav{grid-template-columns:1fr}.panel{padding:24px;border-radius:24px 6px 24px 6px}.navrow{flex-direction:column;align-items:stretch}.btn{width:100%}.callout{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <section class="hero" aria-label="Course introduction">
+    <div class="hero-copy">
+      <div class="eyebrow">eSeries Training</div>
+      <h1>200.01 eSeries | Login &amp; Logout</h1>
+      <p class="subtitle">Learn how to sign in, manage account security, recover access, and log out of eSeries safely.</p>
+    </div>
+    <div class="hero-mark" aria-hidden="true">
+      <div class="block b1"></div><div class="block b2"></div><div class="block b3"></div><div class="block b4"></div><div class="block b5"></div>
+    </div>
+  </section>
+
+  <div class="journey">
+    <aside class="rail">
+      <div class="progress-label"><span>Progress</span><span id="progressText">1 of 7</span></div>
+      <div class="progress-shell"><div class="progress-bar" id="progressBar"></div></div>
+      <nav aria-label="Course sections">
+        <button class="active" data-panel="panel1"><span class="num">1</span><span>Orientation</span></button>
+        <button data-panel="panel2"><span class="num">2</span><span>First-time setup</span></button>
+        <button data-panel="panel3"><span class="num">3</span><span>Login screen</span></button>
+        <button data-panel="panel4"><span class="num">4</span><span>Stay logged in</span></button>
+        <button data-panel="panel5"><span class="num">5</span><span>External login</span></button>
+        <button data-panel="panel6"><span class="num">6</span><span>Maintenance</span></button>
+        <button data-panel="panel7"><span class="num">7</span><span>Logout</span></button>
+      </nav>
+    </aside>
+
+    <main>
+      <section class="panel active" id="panel1">
+        <div class="accent-line"></div>
+        <h2>You are here to access eSeries securely.</h2>
+        <p>Before you can work effectively in eSeries, you need to understand how the platform handles login, security configuration, account recovery, and logout.</p>
+        <div class="pullquote">Authentication is not just a sign-in step. It is part of protecting court data, user access, and the integrity of each work session.</div>
+        <div class="cards">
+          <article class="card"><div class="card-icon">👤</div><h3>Onboarding</h3><p>Execute first-time login and complete initial security configuration.</p></article>
+          <article class="card"><div class="card-icon">🔐</div><h3>Authentication</h3><p>Manage internal and external login methods across the platform.</p></article>
+          <article class="card"><div class="card-icon">🛡️</div><h3>Security</h3><p>Execute formal logout and manage session persistence correctly.</p></article>
+        </div>
+        <div class="navrow"><p class="note">Start with the full authentication lifecycle.</p><button class="btn" data-next="panel2">Continue</button></div>
+      </section>
+
+      <section class="panel" id="panel2">
+        <div class="accent-line"></div>
+        <div class="eyebrow">Onboarding</div>
+        <h2>Your first login establishes your security profile.</h2>
+        <div class="grid-2">
+          <div>
+            <p>During onboarding, your program manager provides your username and temporary password. Keep these credentials secure until your first login.</p>
+            <p>Your temporary password is single-use. You will be required to set a permanent password immediately upon first login.</p>
+            <div class="step-list">
+              <div class="step"><div class="step-num">1</div><div><strong>Open the welcome link.</strong><br>Use the welcome link provided during onboarding.</div></div>
+              <div class="step"><div class="step-num">2</div><div><strong>Create your password.</strong><br>Choose a strong, unique password that meets platform requirements.</div></div>
+              <div class="step"><div class="step-num">3</div><div><strong>Configure Secret Questions.</strong><br>These enable future self-service password resets.</div></div>
+            </div>
+          </div>
+          <div class="image-row">
+            <figure class="screenshot"><img src="assets/image23.png" alt="Initial password configuration screen"><figcaption class="caption">Initial password configuration</figcaption></figure>
+            <figure class="screenshot"><img src="assets/image24.png" alt="Secret Questions setup screen"><figcaption class="caption">Secret Questions setup</figcaption></figure>
+          </div>
+        </div>
+        <div class="navrow"><button class="btn" data-next="panel1">Back</button><button class="btn" data-next="panel3">Continue</button></div>
+      </section>
+
+      <section class="panel" id="panel3">
+        <div class="accent-line"></div>
+        <div class="eyebrow">Authentication</div>
+        <h2>Read the login splash screen before you authenticate.</h2>
+        <p>The login splash screen supports internal credentials, external identity providers, and environment diagnostics for troubleshooting.</p>
+        <figure class="screenshot large"><img src="assets/image10.png" alt="eSeries login splash screen with username and password fields"><figcaption class="caption">Internal authentication login splash screen. Click the image to enlarge.</figcaption></figure>
+        <div class="cards">
+          <article class="card"><h3>Internal Auth</h3><p>Use standard username and password credentials stored within eSeries.</p></article>
+          <article class="card"><h3>External Auth</h3><p>Use supported providers such as Azure AD, LDAP, and Active Directory.</p></article>
+          <article class="card"><h3>Diagnostics</h3><p>Environment version and build numbers appear at the bottom for troubleshooting.</p></article>
+        </div>
+        <div class="reveal"><button class="btn" onclick="toggleReveal('buildReveal')">Where do I find the build?</button><div class="reveal-content" id="buildReveal">Look near the bottom of the login splash screen. Capture the version and build number when troubleshooting or reporting environment-specific behavior.</div></div>
+        <div class="navrow"><button class="btn" data-next="panel2">Back</button><button class="btn" data-next="panel4">Continue</button></div>
+      </section>
+
+      <section class="panel" id="panel4">
+        <div class="accent-line"></div>
+        <div class="eyebrow">Security policy</div>
+        <h2>“Stay Logged In” changes how long the session persists.</h2>
+        <div class="grid-2">
+          <div>
+            <p>The “Stay Logged In” option uses browser local storage to maintain the session even after the browser is closed.</p>
+            <div class="pullquote">Closing the browser is not the same as logging out.</div>
+            <div class="callout warning"><div class="callout-icon">!</div><div><strong>Corporate policy</strong><br>Never use “Stay Logged In” on public or shared hardware. Always perform a manual logout at the end of every session.</div></div>
+          </div>
+          <figure class="screenshot"><img src="assets/image13.png" alt="Stay Logged In option on the eSeries login splash screen"><figcaption class="caption">Stay Logged In option. Click the image to enlarge.</figcaption></figure>
+        </div>
+        <div class="quiz" data-quiz="q1"><h3>Knowledge check</h3><p>You are using a shared testing machine. Should you select “Stay Logged In”?</p><button class="choice" data-correct="false">Yes, if you plan to return later.</button><button class="choice" data-correct="true">No. Shared hardware requires manual logout and no session persistence.</button><button class="choice" data-correct="false">Yes, if the browser is closed afterward.</button><div class="feedback"></div></div>
+        <div class="navrow"><button class="btn" data-next="panel3">Back</button><button class="btn" data-next="panel5">Continue</button></div>
+      </section>
+
+      <section class="panel" id="panel5">
+        <div class="accent-line"></div>
+        <div class="eyebrow">External authentication</div>
+        <h2>External login uses your corporate identity provider.</h2>
+        <div class="grid-2">
+          <div>
+            <div class="step-list">
+              <div class="step"><div class="step-num">1</div><div><strong>Enter your corporate email.</strong><br>Use your corporate email as the username.</div></div>
+              <div class="step"><div class="step-num">2</div><div><strong>Leave the password field blank.</strong><br>External authentication does not use the internal password field.</div></div>
+              <div class="step"><div class="step-num">3</div><div><strong>Select the provider.</strong><br>Click the specific provider button, such as “Log In With Azure.”</div></div>
+            </div>
+            <div class="callout"><div class="callout-icon">i</div><div><strong>Administrator setup required</strong><br>Your account must be pre-configured by an administrator before external authentication can be used.</div></div>
+          </div>
+          <figure class="screenshot"><img src="assets/image21.png" alt="External authentication provider options on eSeries login screen"><figcaption class="caption">External authentication provider options. Click the image to enlarge.</figcaption></figure>
+        </div>
+        <div class="navrow"><button class="btn" data-next="panel4">Back</button><button class="btn" data-next="panel6">Continue</button></div>
+      </section>
+
+      <section class="panel" id="panel6">
+        <div class="accent-line"></div>
+        <div class="eyebrow">Maintenance</div>
+        <h2>Maintain your access before there is a problem.</h2>
+        <p>eSeries supports self-service password recovery and internal profile security updates. Keep your Secret Questions current so account recovery works when you need it.</p>
+        <div class="cards">
+          <article class="card"><div class="card-icon">1</div><h3>Initiate</h3><p>Click “I forgot my password” on the login splash screen.</p></article>
+          <article class="card"><div class="card-icon">2</div><h3>Verify</h3><p>Answer your pre-configured Secret Questions to verify your identity.</p></article>
+          <article class="card"><div class="card-icon">3</div><h3>Recover</h3><p>Use the reset link sent to your registered email address.</p></article>
+        </div>
+        <div class="image-row">
+          <figure class="screenshot"><img src="assets/image20.png" alt="Forgot password screen"><figcaption class="caption">Password recovery initiation</figcaption></figure>
+          <figure class="screenshot"><img src="assets/image28.png" alt="Security password update interface"><figcaption class="caption">Security password update interface</figcaption></figure>
+        </div>
+        <div class="callout"><div class="callout-icon">✓</div><div><strong>Save required</strong><br>Profile security changes are only applied after clicking “Save & Close.” Closing without saving discards all updates.</div></div>
+        <div class="navrow"><button class="btn" data-next="panel5">Back</button><button class="btn" data-next="panel7">Continue</button></div>
+      </section>
+
+      <section class="panel" id="panel7">
+        <div class="accent-line"></div>
+        <div class="eyebrow">Formal logout</div>
+        <h2>End every session with a manual logout.</h2>
+        <div class="pullquote">Manual logout ensures the session token is destroyed immediately, reducing the risk of session hijacking on shared hardware.</div>
+        <div class="grid-2">
+          <div>
+            <div class="step-list">
+              <div class="step"><div class="step-num">1</div><div><strong>Execute</strong><br>Locate the Logout icon in the Top Navigation bar of the dashboard.</div></div>
+              <div class="step"><div class="step-num">2</div><div><strong>Confirm</strong><br>Confirm the action in the pop-up prompt to invalidate your session token.</div></div>
+              <div class="step"><div class="step-num">3</div><div><strong>Secure</strong><br>Always perform a manual logout, especially on shared or public hardware.</div></div>
+            </div>
+          </div>
+          <div>
+            <figure class="screenshot"><img src="assets/image27.png" alt="Logout button in the top navigation"><figcaption class="caption">Logout button in top navigation</figcaption></figure>
+            <figure class="screenshot"><img src="assets/image31.png" alt="Logout confirmation prompt"><figcaption class="caption">Logout confirmation prompt</figcaption></figure>
+          </div>
+        </div>
+        <div class="navrow"><button class="btn" data-next="panel6">Back</button><p class="note">Login & Logout complete</p></div>
+      </section>
+    </main>
+  </div>
+</div>
+
+<dialog id="imageDialog"><div class="modal-head"><strong id="modalTitle">Screenshot preview</strong><button class="modal-close" id="modalClose">Close</button></div><div class="modal-body"><img id="modalImage" alt=""></div></dialog>
+
+<script>
+  const buttons=[...document.querySelectorAll('.rail button')];
+  const panels=[...document.querySelectorAll('.panel')];
+  const progressBar=document.getElementById('progressBar');
+  const progressText=document.getElementById('progressText');
+  const colors=['#D71996','#8B149B','#315BAA','#2293B7','#2DBAC2','#8B149B','#35C795'];
+  function showPanel(id){
+    panels.forEach(p=>p.classList.remove('active'));
+    buttons.forEach(b=>b.classList.remove('active'));
+    const panel=document.getElementById(id);
+    const button=document.querySelector(`[data-panel="${id}"]`);
+    panel.classList.add('active');
+    button.classList.add('active');
+    const index=panels.findIndex(p=>p.id===id);
+    progressBar.style.width=((index+1)/panels.length*100)+'%';
+    progressBar.style.background=colors[index];
+    progressText.textContent=(index+1)+' of '+panels.length;
+    panel.scrollIntoView({behavior:'smooth',block:'start'});
+  }
+  buttons.forEach(b=>b.addEventListener('click',()=>showPanel(b.dataset.panel)));
+  document.querySelectorAll('[data-next]').forEach(b=>b.addEventListener('click',()=>showPanel(b.dataset.next)));
+  function toggleReveal(id){document.getElementById(id).classList.toggle('show')}
+
+  document.querySelectorAll('.quiz').forEach(quiz=>{
+    const feedback=quiz.querySelector('.feedback');
+    quiz.querySelectorAll('.choice').forEach(choice=>{
+      choice.addEventListener('click',()=>{
+        quiz.querySelectorAll('.choice').forEach(c=>c.classList.remove('correct','incorrect'));
+        const correct=choice.dataset.correct==='true';
+        choice.classList.add(correct?'correct':'incorrect');
+        feedback.textContent=correct ? 'Correct. Shared hardware requires manual logout and no persistent session.' : 'Not quite. Closing the browser does not reliably end the session when Stay Logged In is enabled.';
+        feedback.classList.add('show');
+      });
+    });
+  });
+
+  const dialog=document.getElementById('imageDialog');
+  const modalImage=document.getElementById('modalImage');
+  const modalTitle=document.getElementById('modalTitle');
+  const modalClose=document.getElementById('modalClose');
+  document.querySelectorAll('.screenshot img').forEach(img=>{
+    img.addEventListener('click',()=>{
+      modalImage.src=img.src;
+      modalImage.alt=img.alt;
+      const cap=img.closest('figure')?.querySelector('figcaption')?.textContent || 'Screenshot preview';
+      modalTitle.textContent=cap.replace('Click the image to enlarge.','').trim();
+      if(typeof dialog.showModal==='function') dialog.showModal();
+    });
+  });
+  modalClose.addEventListener('click',()=>dialog.close());
+  dialog.addEventListener('click',e=>{if(e.target===dialog) dialog.close();});
+</script>
+</body>
+</html>
