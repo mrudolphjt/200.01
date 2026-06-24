@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>eSeries 200.01 Screenshot Submission</title>
+<style>:root{
+ --jti-black:#211E1F;
+ --jti-gray:#6D6F72;
+ --jti-light:#F7F7F5;
+ --jti-line:#E6E3DF;
+ --jti-white:#FFFFFF;
+ --jti-pink:#D71996;
+ --jti-purple:#8B149B;
+ --jti-blue:#315BAA;
+ --jti-cyan:#2293B7;
+ --jti-teal:#2DBAC2;
+ --jti-green:#35C795;
+ --shadow:0 18px 45px rgba(33,30,31,.10);
+ --soft-shadow:0 10px 28px rgba(33,30,31,.08);
+ }
+
+ *{box-sizing:border-box}
+
+ body{
+ margin:0;
+ font-family:"Neue Haas Grotesk Text Pro", "Helvetica Neue", Arial, sans-serif;
+ color:var(--jti-black);
+ background:
+ radial-gradient(circle at top right, rgba(45,186,194,.10), transparent 34%),
+ linear-gradient(180deg,#fff 0%,var(--jti-light) 100%);
+ }.wrap{
+ max-width:1040px;
+ margin:0 auto;
+ padding:34px 24px;
+ }.course-shell{
+ background:var(--jti-white);
+ border:1px solid var(--jti-line);
+ border-radius:6px 34px 6px 34px;
+ box-shadow:var(--shadow);
+ overflow:hidden;
+ }.hero{
+ display:grid;
+ grid-template-columns:1fr 190px;
+ min-height:220px;
+ background:var(--jti-white);
+ border-bottom:1px solid var(--jti-line);
+ }.hero-copy{
+ padding:38px 44px 34px;
+ }.eyebrow{
+ font-size:.82rem;
+ text-transform:uppercase;
+ letter-spacing:.12em;
+ color:var(--jti-gray);
+ font-weight:800;
+ margin-bottom:14px;
+ }
+
+ h1{
+ font-size:clamp(2.25rem,5vw,4.5rem);
+ line-height:.95;
+ letter-spacing:-.055em;
+ margin:0;
+ max-width:720px;
+ }.subtitle{
+ font-size:1.12rem;
+ line-height:1.55;
+ color:var(--jti-gray);
+ max-width:690px;
+ margin:18px 0 0;
+ }.hero-mark{
+ position:relative;
+ background:var(--jti-black);
+ min-height:220px;
+ display:grid;
+ grid-template-columns:repeat(2,1fr);
+ }.block{min-height:50%;opacity:.96}.b1{background:var(--jti-pink)}.b2{background:var(--jti-purple)}.b3{background:var(--jti-blue)}.b4{background:var(--jti-teal)}.hero-mark::after{
+ content:"";
+ position:absolute;
+ inset:auto 0 0 auto;
+ width:72%;
+ height:42%;
+ background:var(--jti-green);
+ clip-path:polygon(22% 0,100% 0,100% 100%,0 100%);
+ }.content{
+ display:grid;
+ grid-template-columns:minmax(0,1fr) 310px;
+ gap:24px;
+ padding:34px;
+ }.panel{
+ border:1px solid var(--jti-line);
+ border-radius:34px 6px 34px 6px;
+ padding:32px;
+ background:var(--jti-white);
+ box-shadow:var(--soft-shadow);
+ }.accent-line{
+ height:5px;
+ width:84px;
+ border-radius:999px;
+ background:var(--jti-pink);
+ margin-bottom:22px;
+ }
+
+ h2{
+ font-size:clamp(1.75rem,3vw,2.45rem);
+ letter-spacing:-.035em;
+ line-height:1.07;
+ margin:0 0 16px;
+ color:var(--jti-black);
+ }
+
+ p{
+ font-size:1.05rem;
+ line-height:1.64;
+ margin:0 0 16px;
+ color:#302D2E;
+ }.upload-card{
+ margin-top:24px;
+ border:1px solid var(--jti-line);
+ border-radius:26px;
+ padding:24px;
+ background:linear-gradient(180deg,#fff,var(--jti-light));
+ }.upload-card h3{
+ margin:0 0 8px;
+ font-size:1.25rem;
+ letter-spacing:-.015em;
+ }.file-list{
+ display:grid;
+ gap:10px;
+ margin:18px 0 22px;
+ }.file-note{
+ display:grid;
+ grid-template-columns:42px 1fr;
+ gap:12px;
+ align-items:start;
+ padding:14px;
+ background:#fff;
+ border:1px solid var(--jti-line);
+ border-radius:18px;
+ }.icon{
+ width:42px;
+ height:42px;
+ border-radius:14px;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ background:var(--jti-pink);
+ color:#fff;
+ font-weight:900;
+ }.file-note:nth-child(2).icon{background:var(--jti-blue)}.file-note:nth-child(3).icon{background:var(--jti-teal)}.btn-row{
+ display:flex;
+ flex-wrap:wrap;
+ gap:12px;
+ align-items:center;
+ margin-top:10px;
+ }.submit-btn{
+ display:inline-flex;
+ align-items:center;
+ justify-content:center;
+ gap:10px;
+ text-decoration:none;
+ border:0;
+ border-radius:999px;
+ padding:15px 22px;
+ font-weight:900;
+ color:#fff;
+ background:var(--jti-black);
+ box-shadow:0 10px 18px rgba(33,30,31,.15);
+ cursor:pointer;
+ transition:transform.18s ease, box-shadow.18s ease;
+ }.submit-btn:hover{
+ transform:translateY(-1px);
+ box-shadow:0 14px 24px rgba(33,30,31,.18);
+ }.submit-btn span{
+ display:inline-flex;
+ width:28px;
+ height:28px;
+ align-items:center;
+ justify-content:center;
+ border-radius:50%;
+ background:var(--jti-pink);
+ }.small-note{
+ margin:0;
+ color:var(--jti-gray);
+ font-size:.92rem;
+ }.side-card{
+ align-self:start;
+ border:1px solid var(--jti-line);
+ border-radius:26px;
+ padding:24px;
+ background:var(--jti-light);
+ }.side-card h3{
+ margin:0 0 12px;
+ font-size:1.2rem;
+ }.side-card ul{
+ margin:0;
+ padding-left:20px;
+ color:#302D2E;
+ line-height:1.55;
+ }.side-card li{margin-bottom:9px}.status-strip{
+ margin-top:22px;
+ display:grid;
+ grid-template-columns:repeat(5,1fr);
+ height:8px;
+ border-radius:999px;
+ overflow:hidden;
+ }.status-strip span:nth-child(1){background:var(--jti-pink)}.status-strip span:nth-child(2){background:var(--jti-purple)}.status-strip span:nth-child(3){background:var(--jti-blue)}.status-strip span:nth-child(4){background:var(--jti-teal)}.status-strip span:nth-child(5){background:var(--jti-green)}.footer-note{
+ border-top:1px solid var(--jti-line);
+ padding:20px 34px;
+ color:var(--jti-gray);
+ font-size:.92rem;
+ background:#fff;
+ }
+
+ @media(max-width:820px){.wrap{padding:16px}.hero{grid-template-columns:1fr}.hero-mark{min-height:64px;grid-template-columns:repeat(5,1fr)}.hero-mark::after{display:none}.content{grid-template-columns:1fr;padding:22px}.hero-copy{padding:30px 26px}.panel{padding:24px;border-radius:26px 6px 26px 6px}
+ }
+</style>
+</head>
+<body>
+ <div class="wrap">
+ <article class="course-shell" aria-label="eSeries 200.01 screenshot submission">
+ <header class="hero">
+ <div class="hero-copy">
+ <div class="eyebrow">eSeries 200.01 | Practical Exercise</div>
+ <h1>Submit Your Screenshot Files</h1>
+ <p class="subtitle">Use this page to upload the screenshot evidence requested for your practical exercise. Your instructor will grade the submission.</p>
+ </div>
+ <div class="hero-mark" aria-hidden="true">
+ <div class="block b1"></div>
+ <div class="block b2"></div>
+ <div class="block b3"></div>
+ <div class="block b4"></div>
+ </div>
+ </header>
+
+ <section class="content">
+ <main class="panel">
+ <div class="accent-line" aria-hidden="true"></div>
+ <h2>Upload your practical exercise screenshot.</h2>
+ <p>When you are ready, open the secure submission form and attach your screenshot file. The form will send your submission to the instructor review tracker.</p>
+
+ <div class="upload-card">
+ <h3>Screenshot submission</h3>
+ <p>Before you submit, make sure your screenshot clearly shows the completed activity or required evidence for this exercise.</p>
+
+ <div class="file-list" aria-label="Submission requirements">
+ <div class="file-note">
+ <div class="icon">1</div>
+ <div><strong>Use an image file.</strong><br>PNG, JPG, or JPEG files are preferred.</div>
+ </div>
+ <div class="file-note">
+ <div class="icon">2</div>
+ <div><strong>Check readability.</strong><br>Make sure the screenshot is not cropped, blurry, or missing required information.</div>
+ </div>
+ <div class="file-note">
+ <div class="icon">3</div>
+ <div><strong>Submit once ready.</strong><br>Your instructor will grade the submission.</div>
+ </div>
+ </div>
+
+ <div class="btn-row">
+ <a class="submit-btn" href="https://forms.cloud.microsoft/r/7Vbu2QEecL" target="_blank" rel="noopener noreferrer">
+ <span>↗</span>
+ Open Screenshot Submission Form
+ </a>
+ <p class="small-note">The form opens in a new tab.</p>
+ </div>
+ </div>
+ </main>
+
+ <aside class="side-card" aria-label="Instructor review information">
+ <h3>What happens next?</h3>
+ <ul>
+ <li>Your screenshot is routed to the eSeries 200.01 submission tracker.</li>
+ <li>Your instructor reviews the file.</li>
+ <li>Your status may be marked Approved, Needs Revision, or Rejected.</li>
+ </ul>
+ <div class="status-strip" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
+ </aside>
+ </section>
+
+ <footer class="footer-note">
+ </footer>
+ </article>
+ </div>
+
+<script>
+ const submitButton = document.querySelector('.submit-btn');
+ submitButton.addEventListener('click', () => {
+ try {
+ localStorage.setItem('eseries20001SubmissionFormOpened', new Date().toISOString());
+ } catch(e) {}
+ });
+</script>
+</body>
+</html>
