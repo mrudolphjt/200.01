@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>100.01 Build the Court Hierarchy</title>
+<style>
+:root{--ink:#211e1f;--muted:#6d6f72;--surface:#f4f4f2;--line:#d9d9d9;--magenta:#d920a2;--purple:#821293;--blue:#2b57a8;--sky:#168cbf;--teal:#20bcc8;--green:#33cc99;--ok:#166b4b;--bad:#a32822}
+*{box-sizing:border-box;overflow-wrap:anywhere}
+body{margin:0;background:#fff;color:var(--ink);font-family:Arial,Helvetica,sans-serif;line-height:1.5}
+.shell{max-width:920px;margin:0 auto;padding:22px 24px 18px}.brand-row{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:15px}.brand{font-weight:800;letter-spacing:-.035em;font-size:1.12rem}.brand small{display:block;font-size:.58rem;letter-spacing:.08em;font-weight:700;text-transform:uppercase;color:var(--muted)}.course{font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;color:var(--purple);font-weight:800}
+h1{font-size:clamp(1.7rem,4vw,2.3rem);line-height:1.12;margin:.2rem 0 .45rem}.lead{max-width:76ch;color:var(--muted);margin:0 0 14px}.tabs,.pool,.actions{display:flex;gap:8px;flex-wrap:wrap}.tabs{margin:14px 0}.tab,.option,.action{font:inherit;min-height:44px;cursor:pointer;border-radius:12px;font-weight:750}.tab{border:2px solid var(--line);background:#fff;padding:9px 15px}.tab[aria-selected="true"]{border-color:var(--blue);background:#eef3fc;color:#183f86}.tab:focus-visible,.option:focus-visible,.action:focus-visible{outline:3px solid var(--blue);outline-offset:3px}
+.layout{display:grid;grid-template-columns:minmax(280px,1fr) minmax(280px,1fr);gap:16px}.panel{border:1px solid var(--line);border-radius:16px;padding:19px;background:#fff;box-shadow:0 7px 22px rgba(33,30,31,.08)}.panel h2{font-size:1.08rem;margin:0 0 10px}.pool{align-content:flex-start}.option{border:2px solid var(--line);background:var(--surface);color:var(--ink);padding:9px 12px;text-align:left}.option:hover{border-color:var(--sky)}.option:disabled{opacity:.45;cursor:default}
+.sequence{min-height:210px;border:2px dashed #b8b8b8;border-radius:13px;padding:12px;background:var(--surface)}.placeholder{color:var(--muted);margin:.3rem}.step{display:flex;align-items:center;gap:10px;border:1px solid var(--line);border-radius:11px;background:#fff;padding:10px 12px;margin:6px 0;font-weight:700}.number{display:grid;place-items:center;flex:0 0 30px;height:30px;border-radius:50%;background:var(--purple);color:#fff;font-size:.86rem}.connector{width:2px;height:10px;margin:0 auto;background:linear-gradient(var(--magenta),var(--green))}.actions{margin-top:14px}.action{border:2px solid var(--purple);background:var(--purple);color:#fff;padding:9px 14px}.action.secondary{background:#fff;color:var(--purple)}.feedback{margin-top:14px;border-left:5px solid var(--blue);padding:12px 14px;background:#eef3fc;border-radius:0 12px 12px 0}.feedback.ok{border-color:var(--green);background:#effaf5}.feedback.bad{border-color:#d64c46;background:#fff2f1}.feedback[hidden]{display:none}.brand-line{height:5px;border-radius:999px;background:linear-gradient(90deg,var(--magenta),var(--purple),var(--blue),var(--sky),var(--teal),var(--green));margin-top:18px}
+@media(max-width:660px){.shell{padding:18px}.layout{grid-template-columns:1fr}.panel{padding:16px}.sequence{min-height:150px}.tab,.option,.action{width:100%}.actions{display:grid;grid-template-columns:1fr}.brand-row{align-items:flex-start}}
+@media(max-width:420px){.shell{padding:15px}.brand-row{flex-direction:column;gap:4px}.course{text-align:left}.tabs{display:grid;grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+</style>
+</head>
+<body>
+<main class="shell">
+  <div class="brand-row"><div class="brand">Journal <small>Technologies</small></div><div class="course">100.01 eCourt</div></div>
+  <h1>Build the court hierarchy</h1>
+  <p class="lead">Select the levels in order, beginning with the court where a case generally starts and ending with the highest court in the system.</p>
+  <div class="tabs" role="tablist" aria-label="Hierarchy to build">
+    <button class="tab" id="federal-hierarchy-tab" type="button" role="tab" aria-selected="true" aria-controls="hierarchy-activity" tabindex="0" data-system="federal">Federal hierarchy</button>
+    <button class="tab" id="state-hierarchy-tab" type="button" role="tab" aria-selected="false" aria-controls="hierarchy-activity" tabindex="-1" data-system="state">Typical state hierarchy</button>
+  </div>
+  <section id="hierarchy-activity" role="tabpanel" aria-labelledby="federal-hierarchy-tab">
+    <div class="layout">
+      <section class="panel"><h2 id="available-levels-title">Available levels</h2><div id="pool" class="pool" role="group" aria-labelledby="available-levels-title"></div></section>
+      <section class="panel"><h2 id="sequence-title">Your sequence</h2><div id="sequence" class="sequence" role="group" aria-labelledby="sequence-title" aria-live="polite"></div></section>
+    </div>
+    <div class="actions"><button id="check" class="action" type="button">Check sequence</button><button id="undo" class="action secondary" type="button">Undo</button><button id="reset" class="action secondary" type="button">Reset</button></div>
+    <div id="feedback" class="feedback" hidden aria-live="polite" aria-atomic="true" tabindex="-1"></div>
+  </section>
+  <div class="brand-line" aria-hidden="true"></div>
+</main>
+<script>
+const data={
+  federal:["U.S. District Court","U.S. Court of Appeals","U.S. Supreme Court"],
+  state:["Trial Court","Intermediate Appellate Court, where available","Court of Last Resort"]
+};
+let system="federal";
+let sequence=[];
+const pool=document.getElementById("pool");
+const sequenceArea=document.getElementById("sequence");
+const feedback=document.getElementById("feedback");
+const activity=document.getElementById("hierarchy-activity");
+function shuffled(items){
+  const copy=[...items];
+  for(let index=copy.length-1;index>0;index--){
+    const target=Math.floor(Math.random()*(index+1));
+    [copy[index],copy[target]]=[copy[target],copy[index]];
+  }
+  return copy;
+}
+let displayOrder=shuffled(data[system]);
+function render(){
+  pool.innerHTML="";
+  displayOrder.forEach(label=>{
+    const button=document.createElement("button");button.type="button";button.className="option";button.textContent=label;button.disabled=sequence.includes(label);button.addEventListener("click",()=>{sequence.push(label);feedback.hidden=true;render();const nextOption=pool.querySelector(".option:not(:disabled)");(nextOption||document.getElementById("check")).focus()});pool.appendChild(button)
+  });
+  sequenceArea.innerHTML="";
+  if(sequence.length===0){sequenceArea.innerHTML='<p class="placeholder">Your selected order will appear here.</p>';return}
+  sequence.forEach((label,index)=>{
+    const step=document.createElement("div");step.className="step";step.innerHTML=`<span class="number">${index+1}</span><span>${label}</span>`;sequenceArea.appendChild(step);
+    if(index<sequence.length-1){const line=document.createElement("div");line.className="connector";line.setAttribute("aria-hidden","true");sequenceArea.appendChild(line)}
+  });
+}
+document.getElementById("check").addEventListener("click",()=>{
+  if(sequence.length!==data[system].length){feedback.className="feedback bad";feedback.textContent="Select every level before checking the sequence.";feedback.hidden=false;feedback.focus();return}
+  const correct=sequence.every((item,index)=>item===data[system][index]);
+  feedback.className=`feedback ${correct?"ok":"bad"}`;
+  feedback.innerHTML=correct?"<strong>Correct.</strong> You built the hierarchy from the usual starting court to the highest court.":"<strong>Review the order.</strong> Begin with the court that receives evidence and determines facts, then move through appellate review.";
+  feedback.hidden=false;
+  feedback.focus();
+});
+document.getElementById("undo").addEventListener("click",()=>{sequence.pop();feedback.hidden=true;render()});
+document.getElementById("reset").addEventListener("click",()=>{sequence=[];displayOrder=shuffled(data[system]);feedback.hidden=true;render()});
+const tabs=[...document.querySelectorAll("[data-system]")];
+function activateTab(tab){
+  system=tab.dataset.system;sequence=[];displayOrder=shuffled(data[system]);feedback.hidden=true;
+  tabs.forEach(item=>{item.setAttribute("aria-selected",String(item===tab));item.tabIndex=item===tab?0:-1});
+  activity.setAttribute("aria-labelledby",tab.id);
+  render();
+}
+tabs.forEach((tab,tabIndex)=>{
+  tab.addEventListener("click",()=>activateTab(tab));
+  tab.addEventListener("keydown",event=>{
+    let nextIndex=tabIndex;
+    if(event.key==="ArrowRight")nextIndex=(tabIndex+1)%tabs.length;
+    else if(event.key==="ArrowLeft")nextIndex=(tabIndex-1+tabs.length)%tabs.length;
+    else if(event.key==="Home")nextIndex=0;
+    else if(event.key==="End")nextIndex=tabs.length-1;
+    else return;
+    event.preventDefault();tabs[nextIndex].focus();activateTab(tabs[nextIndex]);
+  });
+});
+render();
+</script>
+</body>
+</html>
