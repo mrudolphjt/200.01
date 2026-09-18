@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>100.01 Trial or Appellate Court</title>
+<style>
+:root{--ink:#211e1f;--muted:#6d6f72;--surface:#f4f4f2;--line:#d9d9d9;--magenta:#d920a2;--purple:#821293;--blue:#2b57a8;--sky:#168cbf;--teal:#20bcc8;--green:#33cc99;--ok:#166b4b;--bad:#a32822}
+*{box-sizing:border-box;overflow-wrap:anywhere}
+body{margin:0;background:#fff;color:var(--ink);font-family:Arial,Helvetica,sans-serif;line-height:1.5}
+.shell{max-width:900px;margin:0 auto;padding:22px 24px 18px}
+.brand-row{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:15px}.brand{font-weight:800;letter-spacing:-.035em;font-size:1.12rem}.brand small{display:block;font-size:.58rem;letter-spacing:.08em;font-weight:700;text-transform:uppercase;color:var(--muted)}.course{font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;color:var(--purple);font-weight:800}
+h1{font-size:clamp(1.7rem,4vw,2.3rem);line-height:1.12;margin:.2rem 0 .45rem}.lead{max-width:72ch;color:var(--muted);margin:0 0 14px}.progress{font-size:.9rem;color:var(--muted);font-weight:700;margin:10px 0}
+.card{border:1px solid var(--line);border-radius:16px;padding:24px;background:var(--surface);box-shadow:0 7px 22px rgba(33,30,31,.08)}
+.scenario-label{text-transform:uppercase;letter-spacing:.08em;font-size:.75rem;color:var(--purple);font-weight:800}.scenario{font-size:1.24rem;line-height:1.4;margin:.55rem 0 1rem}
+.choices{display:grid;grid-template-columns:1fr 1fr;gap:12px}button{font:inherit;min-height:48px;cursor:pointer}.choice{border:2px solid var(--line);border-radius:13px;background:#fff;color:var(--ink);padding:12px 14px;font-weight:750}.choice:hover{border-color:var(--sky)}.choice:focus-visible,.next:focus-visible{outline:3px solid var(--blue);outline-offset:3px}.choice:disabled{cursor:default;opacity:.82}.choice.correct{border-color:var(--ok);background:#effaf5;color:#124f39}.choice.incorrect{border-color:var(--bad);background:#fff2f1;color:#7f211d}
+.feedback{margin-top:16px;border-left:5px solid var(--blue);padding:13px 15px;background:#eef3fc;border-radius:0 12px 12px 0}.feedback.ok{border-color:var(--green);background:#effaf5}.feedback.bad{border-color:#d64c46;background:#fff2f1}.feedback[hidden]{display:none}.next{margin-top:14px;border:0;border-radius:12px;background:var(--purple);color:#fff;padding:11px 18px;font-weight:750}.next[hidden]{display:none}.summary{font-size:1.08rem}.brand-line{height:5px;border-radius:999px;background:linear-gradient(90deg,var(--magenta),var(--purple),var(--blue),var(--sky),var(--teal),var(--green));margin-top:18px}
+@media(max-width:580px){.shell{padding:18px}.card{padding:18px}.choices{grid-template-columns:1fr}.next{width:100%}.brand-row{align-items:flex-start}}
+@media(max-width:420px){.shell{padding:15px}.brand-row{flex-direction:column;gap:4px}.course{text-align:left}.scenario{font-size:1.12rem}}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+</style>
+</head>
+<body>
+<main class="shell">
+  <div class="brand-row"><div class="brand">Journal <small>Technologies</small></div><div class="course">100.01 eCourt</div></div>
+  <h1>Trial court or appellate court</h1>
+  <p class="lead">Read each situation and choose the court function it best represents. Use the work being performed, not the court's name, as your clue.</p>
+  <div id="progress" class="progress" aria-live="polite"></div>
+  <section class="card">
+    <div class="scenario-label">Situation</div>
+    <p id="scenario" class="scenario"></p>
+    <div id="choices" class="choices">
+      <button class="choice" type="button" data-answer="trial" aria-describedby="scenario">Trial court function</button>
+      <button class="choice" type="button" data-answer="appellate" aria-describedby="scenario">Appellate court function</button>
+    </div>
+    <div id="feedback" class="feedback" hidden role="status" aria-live="polite" aria-atomic="true"></div>
+    <button id="next" class="next" type="button" hidden>Next situation</button>
+  </section>
+  <div class="brand-line" aria-hidden="true"></div>
+</main>
+<script>
+const items=[
+  {text:"Witnesses testify, exhibits are admitted, and a judge or jury determines what happened.",answer:"trial",why:"Trial courts create the factual record by receiving evidence and resolving disputed facts."},
+  {text:"A panel reviews briefs and the existing record to decide whether the lower court applied the law correctly.",answer:"appellate",why:"Appellate courts generally review legal and procedural issues from the existing record rather than retrying the case."},
+  {text:"The parties complete discovery and prepare evidence for a hearing on the merits.",answer:"trial",why:"Discovery and presentation of evidence are trial-level functions."},
+  {text:"A panel of judges hears oral argument about a claimed error in the lower court's decision.",answer:"appellate",why:"Reviewing a claimed legal or procedural error in a lower court's decision is an appellate function."},
+  {text:"The court issues an order sending the matter back to the lower court for additional proceedings.",answer:"appellate",why:"An appellate court may remand, or return, a case to the lower court for further action."},
+  {text:"The judge rules on a motion, admits evidence, and enters a final judgment.",answer:"trial",why:"Ruling on trial-level motions, receiving evidence, and entering judgment are trial-court functions."}
+];
+let index=0;
+let correct=0;
+let answered=false;
+const progress=document.getElementById("progress");
+const scenario=document.getElementById("scenario");
+const feedback=document.getElementById("feedback");
+const next=document.getElementById("next");
+const choices=[...document.querySelectorAll(".choice")];
+
+function draw(moveFocus=false){
+  answered=false;
+  const item=items[index];
+  progress.textContent=`Situation ${index+1} of ${items.length}`;
+  scenario.textContent=item.text;
+  feedback.hidden=true;
+  feedback.className="feedback";
+  next.hidden=true;
+  choices.forEach(button=>{button.disabled=false;button.classList.remove("correct","incorrect")});
+  if(moveFocus)choices[0].focus();
+}
+function answer(value,button){
+  if(answered)return;
+  answered=true;
+  const item=items[index];
+  const isCorrect=value===item.answer;
+  if(isCorrect)correct++;
+  button.classList.add(isCorrect?"correct":"incorrect");
+  const correctButton=choices.find(itemButton=>itemButton.dataset.answer===item.answer);
+  correctButton.classList.add("correct");
+  choices.forEach(itemButton=>itemButton.disabled=true);
+  feedback.className=`feedback ${isCorrect?"ok":"bad"}`;
+  feedback.innerHTML=`<strong>${isCorrect?"Correct":"Review the distinction"}.</strong> ${item.why}`;
+  feedback.hidden=false;
+  next.textContent=index===items.length-1?"View results":"Next situation";
+  next.hidden=false;
+  next.focus();
+}
+choices.forEach(button=>button.addEventListener("click",()=>answer(button.dataset.answer,button)));
+next.addEventListener("click",()=>{
+  if(index<items.length-1){index++;draw(true);return}
+  const card=document.querySelector(".card");
+  card.innerHTML=`<div class="scenario-label">Activity complete</div><p class="summary"><strong>You answered ${correct} of ${items.length} situations correctly on the first attempt.</strong></p><p>Keep this distinction in mind: trial courts build the record; appellate courts review the record for claimed legal or procedural error.</p><button id="try-again" class="next" type="button">Try again</button>`;
+  const tryAgain=document.getElementById("try-again");
+  tryAgain.addEventListener("click",()=>location.reload());
+  tryAgain.focus();
+  progress.textContent="Complete";
+});
+draw();
+</script>
+</body>
+</html>
