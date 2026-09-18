@@ -90,7 +90,7 @@ const systems={
   }
 };
 let activeSystem="federal";
-let activeLevel=2;
+let activeLevel=0;
 const hierarchy=document.getElementById("hierarchy");
 const detailContent=document.getElementById("detail-content");
 const note=document.getElementById("system-note");
@@ -121,7 +121,7 @@ function render(restoreLevelFocus=false){
 const tabs=[...document.querySelectorAll("[data-system]")];
 function activateTab(tab){
   activeSystem=tab.dataset.system;
-  activeLevel=activeSystem==="federal"?2:3;
+  activeLevel=0;
   tabs.forEach(item=>{item.setAttribute("aria-selected",String(item===tab));item.tabIndex=item===tab?0:-1});
   workspace.setAttribute("aria-labelledby",tab.id);
   render();
