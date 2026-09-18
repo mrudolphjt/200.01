@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>100.01 Court System Explorer</title>
+<style>
+:root{
+  --ink:#211e1f;
+  --muted:#6d6f72;
+  --surface:#f4f4f2;
+  --line:#d9d9d9;
+  --magenta:#d920a2;
+  --purple:#821293;
+  --blue:#2b57a8;
+  --sky:#168cbf;
+  --teal:#20bcc8;
+  --green:#33cc99;
+  --focus:#2b57a8;
+}
+*{box-sizing:border-box;overflow-wrap:anywhere}
+body{margin:0;background:#fff;color:var(--ink);font-family:Arial,Helvetica,sans-serif;line-height:1.5}
+.shell{max-width:940px;margin:0 auto;padding:22px 24px 18px}
+.brand-row{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:16px}
+.brand{font-weight:800;letter-spacing:-.035em;font-size:1.12rem}
+.brand small{display:block;font-size:.58rem;letter-spacing:.08em;font-weight:700;text-transform:uppercase;color:var(--muted)}
+.course{font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;color:var(--purple);font-weight:800}
+h1{font-size:clamp(1.7rem,4vw,2.35rem);line-height:1.12;margin:.2rem 0 .45rem}
+.lead{max-width:76ch;color:var(--muted);margin:0 0 16px}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0}
+button{font:inherit;min-height:44px;cursor:pointer}
+.tab{border:2px solid var(--line);border-radius:12px;background:#fff;color:var(--ink);padding:9px 16px;font-weight:700}
+.tab[aria-selected="true"]{border-color:var(--blue);background:#eef3fc;color:#183f86}
+button:focus-visible{outline:3px solid var(--focus);outline-offset:3px}
+.workspace{display:grid;grid-template-columns:minmax(265px,.9fr) minmax(320px,1.35fr);gap:18px;align-items:start}
+.hierarchy,.detail{border:1px solid var(--line);border-radius:16px;background:#fff;box-shadow:0 7px 22px rgba(33,30,31,.08)}
+.hierarchy{padding:18px;background:var(--surface)}
+.level{display:block;width:100%;border:2px solid transparent;border-radius:12px;background:#fff;color:var(--ink);padding:11px 12px;text-align:left;font-weight:700}
+.level:hover{border-color:var(--sky)}
+.level[aria-pressed="true"]{border-color:var(--purple);background:#fbf2fb;color:#641073}
+.connector{height:18px;width:2px;background:linear-gradient(var(--magenta),var(--green));margin:3px auto}
+.detail{padding:22px;min-height:276px}
+.label{display:inline-block;color:#fff;background:var(--purple);border-radius:999px;padding:5px 10px;font-size:.76rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em}
+h2{font-size:1.28rem;margin:.8rem 0 .45rem}
+.detail p{margin:.45rem 0}
+.detail ul{padding-left:1.2rem;margin:.6rem 0}
+.note{margin:16px 0 0;padding:12px 14px;border-left:5px solid var(--green);background:#effbf7;color:#31443d}
+.brand-line{height:5px;border-radius:999px;background:linear-gradient(90deg,var(--magenta),var(--purple),var(--blue),var(--sky),var(--teal),var(--green));margin-top:18px}
+@media(max-width:680px){.shell{padding:18px}.workspace{grid-template-columns:1fr}.detail{min-height:0;padding:18px}.hierarchy{padding:15px}.tab{width:100%}.brand-row{align-items:flex-start}}
+@media(max-width:420px){.shell{padding:15px}.brand-row{flex-direction:column;gap:4px}.course{text-align:left}.tabs{display:grid;grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+</style>
+</head>
+<body>
+<main class="shell">
+  <div class="brand-row">
+    <div class="brand">Journal <small>Technologies</small></div>
+    <div class="course">100.01 eCourt</div>
+  </div>
+  <h1>Court system explorer</h1>
+  <p class="lead">Choose a court system, then select a level to review its usual role. The state model is intentionally general because names and paths vary by jurisdiction.</p>
+
+  <div class="tabs" role="tablist" aria-label="Court systems">
+    <button class="tab" type="button" id="federal-tab" role="tab" aria-selected="true" tabindex="0" aria-controls="workspace" data-system="federal">Federal system</button>
+    <button class="tab" type="button" id="state-tab" role="tab" aria-selected="false" tabindex="-1" aria-controls="workspace" data-system="state">Typical state model</button>
+  </div>
+
+  <section id="workspace" class="workspace" role="tabpanel" aria-labelledby="federal-tab">
+    <div id="hierarchy" class="hierarchy" role="group" aria-label="Court hierarchy"></div>
+    <article id="detail" class="detail" aria-live="polite" aria-atomic="true"></article>
+  </section>
+
+  <p id="system-note" class="note" aria-live="polite" aria-atomic="true"></p>
+  <div class="brand-line" aria-hidden="true"></div>
+</main>
+<script>
+const systems={
+  federal:{
+    note:"Federal cases generally begin in a U.S. district court. A party may appeal to a U.S. court of appeals and may then ask the U.S. Supreme Court to review the case. The Supreme Court accepts only a small share of requests.",
+    levels:[
+      {name:"U.S. Supreme Court",kind:"Court of last resort",role:"The highest federal court. Most of its work involves discretionary review of decisions from federal courts of appeals and eligible decisions from the highest state courts.",look:"Look for petitions asking the Court to review a case, constitutional questions, and issues of federal law."},
+      {name:"U.S. Courts of Appeals",kind:"Appellate courts",role:"Thirteen federal appellate courts review lower-court and certain agency decisions. They ordinarily review the record rather than retrying the case or hearing new evidence.",look:"Look for briefs, panel assignments, oral argument, written opinions, and orders that affirm, reverse, or return a matter for further proceedings."},
+      {name:"U.S. District Courts",kind:"Trial courts",role:"U.S. district courts serve the 94 federal judicial districts and are the primary trial courts in the federal system. They resolve federal civil and criminal matters within the jurisdiction granted by the Constitution and Congress.",look:"Look for pleadings, evidence, witnesses, hearings, trials, judgments, and a record that can support appellate review."}
+    ]
+  },
+  state:{
+    note:"Every state has its own constitution, laws, court names, and appeal routes. Confirm the structure of the specific jurisdiction before applying this model to a client.",
+    levels:[
+      {name:"Court of Last Resort",kind:"Highest state court",role:"The highest court in the state system. It usually has discretion over many appeals and is often called a supreme court, although names vary.",look:"A state-law decision usually ends here. An eligible federal question may be presented to the U.S. Supreme Court, which generally decides whether to grant review."},
+      {name:"Intermediate Appellate Court",kind:"Optional state level",role:"Many, but not all, states use an intermediate appellate court to review trial-court decisions before a case can reach the court of last resort.",look:"Confirm whether the state has this level, which cases it hears, and whether review is mandatory or discretionary."},
+      {name:"General Jurisdiction Trial Court",kind:"Broad trial jurisdiction",role:"These trial courts generally hear a broad range of civil and criminal matters not assigned to a more limited court. Names can include circuit, district, or superior court.",look:"Confirm case types, divisions, jury processes, filing paths, and relationships with lower or specialized courts."},
+      {name:"Limited, Local, or Specialized Court",kind:"Defined jurisdiction",role:"These courts or divisions handle matters defined by state or local law. Examples may include traffic, small claims, municipal ordinance, probate, family, or juvenile matters.",look:"Do not infer jurisdiction from the court name alone. Verify the governing law, case types, limits, and appeal path."}
+    ]
+  }
+};
+let activeSystem="federal";
+let activeLevel=2;
+const hierarchy=document.getElementById("hierarchy");
+const detail=document.getElementById("detail");
+const note=document.getElementById("system-note");
+const workspace=document.getElementById("workspace");
+
+function render(restoreLevelFocus=false){
+  const data=systems[activeSystem];
+  hierarchy.innerHTML="";
+  let selectedButton;
+  data.levels.forEach((level,index)=>{
+    const button=document.createElement("button");
+    button.className="level";
+    button.type="button";
+    button.textContent=level.name;
+    button.setAttribute("aria-pressed",String(index===activeLevel));
+    button.setAttribute("aria-controls","detail");
+    button.addEventListener("click",()=>{activeLevel=index;render(true)});
+    if(index===activeLevel)selectedButton=button;
+    hierarchy.appendChild(button);
+    if(index<data.levels.length-1){const line=document.createElement("div");line.className="connector";line.setAttribute("aria-hidden","true");hierarchy.appendChild(line)}
+  });
+  const selected=data.levels[activeLevel];
+  detail.innerHTML=`<span class="label">${selected.kind}</span><h2>${selected.name}</h2><p>${selected.role}</p><p><strong>In a court technology project:</strong> ${selected.look}</p>`;
+  note.textContent=data.note;
+  if(restoreLevelFocus&&selectedButton)selectedButton.focus();
+}
+
+const tabs=[...document.querySelectorAll("[data-system]")];
+function activateTab(tab){
+  activeSystem=tab.dataset.system;
+  activeLevel=activeSystem==="federal"?2:3;
+  tabs.forEach(item=>{item.setAttribute("aria-selected",String(item===tab));item.tabIndex=item===tab?0:-1});
+  workspace.setAttribute("aria-labelledby",tab.id);
+  render();
+}
+tabs.forEach((tab,tabIndex)=>{
+  tab.addEventListener("click",()=>activateTab(tab));
+  tab.addEventListener("keydown",event=>{
+    let nextIndex=tabIndex;
+    if(event.key==="ArrowRight")nextIndex=(tabIndex+1)%tabs.length;
+    else if(event.key==="ArrowLeft")nextIndex=(tabIndex-1+tabs.length)%tabs.length;
+    else if(event.key==="Home")nextIndex=0;
+    else if(event.key==="End")nextIndex=tabs.length-1;
+    else return;
+    event.preventDefault();tabs[nextIndex].focus();activateTab(tabs[nextIndex]);
+  });
+});
+render();
+</script>
+</body>
+</html>
