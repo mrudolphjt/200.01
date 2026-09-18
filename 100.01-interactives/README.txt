@@ -20,7 +20,8 @@ Design and accessibility
   #D920A2, #821293, #2B57A8, #168CBF, #20BCC8, and #33CC99.
 - Uses only system fonts, inline CSS, and inline JavaScript. No outside libraries or font requests are required.
 - Supports keyboard navigation, visible focus, responsive layouts, reduced motion preferences, and live feedback announcements.
-- Each activity is designed to stay compact inside an LMS iframe and avoids a long scrolling lesson inside the embed.
+- At standard desktop embed sizes, each activity uses the iframe viewport height so the outer page does not create a scrollbar.
+- At narrow widths, high browser zoom, or unusually short embed heights, normal scrolling remains available so content is not clipped.
 
 Publishing and Rippling
 
