@@ -70,6 +70,14 @@ function render(){
     if(index<sequence.length-1){const line=document.createElement("div");line.className="connector";line.setAttribute("aria-hidden","true");sequenceArea.appendChild(line)}
   });
 }
+function resetActivity(){
+  sequence=[];
+  displayOrder=shuffled(data[system]);
+  feedback.hidden=true;
+  feedback.className="feedback";
+  feedback.textContent="";
+  render();
+}
 document.getElementById("check").addEventListener("click",()=>{
   if(sequence.length!==data[system].length){feedback.className="feedback bad";feedback.textContent="Select every level before checking the sequence.";feedback.hidden=false;feedback.focus();return}
   const correct=sequence.every((item,index)=>item===data[system][index]);
@@ -79,13 +87,13 @@ document.getElementById("check").addEventListener("click",()=>{
   feedback.focus();
 });
 document.getElementById("undo").addEventListener("click",()=>{sequence.pop();feedback.hidden=true;render()});
-document.getElementById("reset").addEventListener("click",()=>{sequence=[];displayOrder=shuffled(data[system]);feedback.hidden=true;render()});
+document.getElementById("reset").addEventListener("click",resetActivity);
 const tabs=[...document.querySelectorAll("[data-system]")];
 function activateTab(tab){
-  system=tab.dataset.system;sequence=[];displayOrder=shuffled(data[system]);feedback.hidden=true;
+  system=tab.dataset.system;
   tabs.forEach(item=>{item.setAttribute("aria-selected",String(item===tab));item.tabIndex=item===tab?0:-1});
   activity.setAttribute("aria-labelledby",tab.id);
-  render();
+  resetActivity();
 }
 tabs.forEach((tab,tabIndex)=>{
   tab.addEventListener("click",()=>activateTab(tab));
