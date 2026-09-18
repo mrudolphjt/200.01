@@ -21,12 +21,8 @@
 *{box-sizing:border-box;overflow-wrap:anywhere}
 html,body{min-height:100%}
 body{margin:0;background:#fff;color:var(--ink);font-family:Arial,Helvetica,sans-serif;line-height:1.5}
-.shell{max-width:1100px;margin:0 auto;padding:18px 24px 13px}
-.brand-row{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:10px}
-.brand{font-weight:800;letter-spacing:-.035em;font-size:1.12rem}
-.brand small{display:block;font-size:.58rem;letter-spacing:.08em;font-weight:700;text-transform:uppercase;color:var(--muted)}
-.course{font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;color:var(--purple);font-weight:800}
-h1{font-size:clamp(1.7rem,4vw,2.35rem);line-height:1.12;margin:.1rem 0 .3rem}
+.shell{max-width:1100px;margin:0 auto;padding:14px 24px 13px}
+h1{font-size:clamp(1.7rem,4vw,2.35rem);line-height:1.12;margin:0 0 .3rem}
 .lead{max-width:86ch;color:var(--muted);margin:0 0 10px}
 .tabs{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 12px}
 button{font:inherit;min-height:44px;cursor:pointer}
@@ -40,27 +36,22 @@ button:focus-visible{outline:3px solid var(--focus);outline-offset:3px}
 .level:hover{border-color:var(--sky)}
 .level[aria-pressed="true"]{border-color:var(--purple);background:#fbf2fb;color:#641073}
 .connector{height:14px;width:2px;background:linear-gradient(var(--magenta),var(--green));margin:2px auto}
-.detail{display:flex;flex-direction:column;padding:20px;min-height:0}
-.detail-content{min-height:0}
+.detail{display:flex;flex-direction:column;gap:12px;padding:20px;min-height:0}
+.detail-content{flex:0 0 auto;min-height:0}
 .label{display:inline-block;color:#fff;background:var(--purple);border-radius:999px;padding:5px 10px;font-size:.76rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em}
 h2{font-size:1.28rem;margin:.8rem 0 .45rem}
 .detail p{margin:.35rem 0}
 .detail ul{padding-left:1.2rem;margin:.6rem 0}
-.note{margin:auto 0 0;padding:9px 11px;border-left:5px solid var(--green);background:#effbf7;color:#31443d;font-size:.88rem;line-height:1.35}
-.detail-content+.note{margin-top:12px}
-.brand-line{flex:0 0 5px;height:5px;border-radius:999px;background:linear-gradient(90deg,var(--magenta),var(--purple),var(--blue),var(--sky),var(--teal),var(--green));margin-top:10px}
+.note{flex:0 0 auto;width:100%;margin:auto 0 0;padding:9px 11px;border-left:5px solid var(--green);background:#effbf7;color:#31443d;font-size:.88rem;line-height:1.35}
+.brand-line{align-self:stretch;flex:0 0 5px;width:100%;height:5px;border-radius:999px;background:linear-gradient(90deg,var(--magenta),var(--purple),var(--blue),var(--sky),var(--teal),var(--green));margin-top:10px}
 @media(min-width:681px) and (min-height:560px){html,body{height:100%;overflow:hidden}.shell{height:100%;display:flex;flex-direction:column}.workspace{flex:1}.hierarchy,.detail{height:100%;overflow:auto}}
-@media(max-width:680px){.shell{padding:16px}.workspace{grid-template-columns:1fr}.detail{min-height:0;padding:18px}.hierarchy{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;padding:15px}.connector{display:none}.tab{width:100%}.brand-row{align-items:flex-start}.note{margin-top:12px}}
-@media(max-width:420px){.shell{padding:15px}.brand-row{flex-direction:column;gap:4px}.course{text-align:left}.tabs{display:grid;grid-template-columns:1fr}}
+@media(max-width:680px){.shell{padding:16px}.workspace{grid-template-columns:1fr}.detail{min-height:0;padding:18px}.hierarchy{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;padding:15px}.connector{display:none}.tab{width:100%}.note{margin-top:0}}
+@media(max-width:420px){.shell{padding:15px}.tabs{display:grid;grid-template-columns:1fr}}
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
 </style>
 </head>
 <body>
 <main class="shell">
-  <div class="brand-row">
-    <div class="brand">Journal <small>Technologies</small></div>
-    <div class="course">100.01 eCourt</div>
-  </div>
   <h1>Court system explorer</h1>
   <p class="lead">Choose a court system, then select a level to review its usual role. The state model is intentionally general because names and paths vary by jurisdiction.</p>
 
